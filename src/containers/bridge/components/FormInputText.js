@@ -10,18 +10,24 @@ class FormInputText extends Component {
   };
 
   handleChange = (e) => {
-    const isNumber = this.props.type === 'amount';
-    const value = e.target.value;
-    const isNumberInvalid = isNaN(value);
     let responseObject = {};
-    if (isNumber && !isNumberInvalid) {
+    const value = e.target.value;
+    if(this.props.type === 'targetAccount') {
       responseObject.data = value;
       responseObject.error = null;
       responseObject.type = this.props.type;
-    } else if (isNumber && isNumberInvalid) {
-      responseObject.data = value;
-      responseObject.error = 'Invalid Number for ethereum amount'; 
-      responseObject.type = this.props.type;
+    } else {
+      const isNumber = this.props.type === 'amount';
+      const isNumberInvalid = isNaN(value);
+      if (isNumber && !isNumberInvalid) {
+        responseObject.data = value;
+        responseObject.error = null;
+        responseObject.type = this.props.type;
+      } else if (isNumber && isNumberInvalid) {
+        responseObject.data = value;
+        responseObject.error = 'Invalid Number for ethereum amount';
+        responseObject.type = this.props.type;
+      }
     }
     this.props.returnValue(responseObject);
   }
@@ -30,7 +36,7 @@ class FormInputText extends Component {
     const { placeholderText } = this.props;
     return (
       <div>
-        <Input disabled={this.props.isDisabled} placeholder={placeholderText} onChange={this.handleChange}/>       
+        <Input disabled={this.props.isDisabled} placeholder={placeholderText} onChange={this.handleChange}/>
       </div>
     );
   }

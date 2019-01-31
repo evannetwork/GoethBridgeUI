@@ -7,37 +7,36 @@ const Step = Steps.Step;
 
 class ProgressElement extends Component {
   render() {
-    const { activated, depositRecieved, withdrawRecieved } =  this.props;
+    const { ticketReleased, depositRecieved, eveTransferred } =  this.props;
     let step = 0;
-    const partProgress = depositRecieved && !withdrawRecieved;
-    const finished = depositRecieved && withdrawRecieved;
+    const partProgress = depositRecieved && !eveTransferred;
+    const finished = depositRecieved && eveTransferred;
     if (partProgress) {
       step = 1;
-    } 
+    }
     if(finished) {
       step = 2;
     }
-    
+
     return (
-      <div> 
+      <div>
         <Row>
           {
-            !activated || finished ? null
+            !ticketReleased ? null
             : <Col>
                 <Card className="cardContainer">
                 <div style={stepContainer}>
                   <br />
                   <Steps progressDot current={step}>
-                    <Step title="Transaction Executed" description="Events are waiting to be registered and displayed." />
+                    <Step title="Ticket Released" description="Your ticket with fixed ETH/EVE price is released" />
                     <Step title="Deposit Recieved" description="Deposit event has been recieved." />
-                    <Step title="Withdraw Recieved" description="Withdraw event on Goerli recieved." />
+                    <Step title="EVE transferred" description="Your EVE have been transferred to the target account." />
                   </Steps>
                   <br />
-                  <p style={text}> hello friends, be patient it could take a few moments... </p>
                 </div>
               </Card>
-            </Col>    
-          }       
+            </Col>
+          }
       </Row>
      </div>
     );
@@ -45,10 +44,10 @@ class ProgressElement extends Component {
 }
 
 const stepContainer = {
-  width: "80%", 
-  paddingTop: '5%', 
+  width: "80%",
+  paddingTop: '5%',
   paddingBottom: '5%',
-  margin: '0 auto', 
+  margin: '0 auto',
 };
 
 const text = {

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import BridgeContainer from '../revised/index';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './Router';
 
 class App extends Component {
   render() {
     return (
-      <BridgeContainer />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     );
   }
 }

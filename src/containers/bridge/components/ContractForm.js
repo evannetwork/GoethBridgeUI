@@ -8,20 +8,22 @@ class ContractForm extends Component {
 
   state= {
     amount: 0,
+    targetAccount: '',
     network: this.props.activeNetwork,
     errorMessage: null,
     activated: false,
   };
 
   processInputs = async (resObj) => {
+    console.dir(resObj)
     const { error, data, type } = resObj;
     this.setState({ errorMessage: error, [type]: data  }, function () {});
   };
 
   execute = async () => {
-    const { amount } = this.state;
+    const { amount, targetAccount } = this.state;
     await this.setState({activated: true });
-    this.props.extractData({amount});
+    this.props.extractData({amount, targetAccount});
   };
 
   reset = async () => {
@@ -47,22 +49,22 @@ class ContractForm extends Component {
               <Row type="flex" justify="space-around" gutter={16} className="formContainer">
                 <Col xs={24} sm={12} md={8} lg={8} span={4}>
                   <FormInputText resetField={resetData} isDisabled={false} type="amount" placeholderText="Ether Amount" returnValue={this.processInputs} />
-                </Col>           
-                <Col xs={24} sm={12} md={8} span={4}>
-                  <FormInputText isDisabled={true} placeholderText={this.props.activeNetwork} />
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={8} span={4}>
+                  <FormInputText resetField={resetData} isDisabled={false} type="targetAccount" placeholderText="Target evan.network account" returnValue={this.processInputs} />
                 </Col>
                 <Col xs={24} sm={12} md={8} span={4}>
                 {
-                  activated 
+                  activated
                   ?  <Button
-                        disabled={!this.props.eventsComplete} 
-                        onClick={() => this.reset()} 
+                        disabled={!this.props.eventsComplete}
+                        onClick={() => this.reset()}
                         type="danger">Clear Data
-                      </Button> 
-                  :  <Button 
+                      </Button>
+                  :  <Button
                       disabled={!formComplete || isMainnet}
                       className="btn"
-                      onClick={() => this.execute()} 
+                      onClick={() => this.execute()}
                       type= {!formComplete ? 'danger': 'primary'}
                       block>
                       Send to Bridge
